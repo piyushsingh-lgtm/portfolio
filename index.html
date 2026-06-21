@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piyush Singh — Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#180F26;
+    --bg-soft:#1F1530;
+    --card:#241934;
+    --card-border:#3A2A52;
+    --text:#F5F0FF;
+    --text-dim:#B7A9CC;
+    --pink:#FF3D81;
+    --mint:#00E5A0;
+    --amber:#FFC53D;
+    --blue:#5DC9FF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  /* background texture */
+  .grain-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(255,61,129,0.12), transparent 35%),
+      radial-gradient(circle at 85% 10%, rgba(0,229,160,0.10), transparent 40%),
+      radial-gradient(circle at 50% 90%, rgba(93,201,255,0.10), transparent 45%);
+  }
+
+  .wrap{position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:0 24px;}
+
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(24,15,38,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--card-border);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; padding:16px 24px;}
+  .nav-logo{font-weight:700; font-size:18px;}
+  .nav-logo span{color:var(--pink);}
+  nav a{color:var(--text-dim); text-decoration:none; font-size:14px; margin-left:28px; transition:color .2s;}
+  nav a:hover{color:var(--text);}
+  .nav-links{display:flex; align-items:center;}
+  .nav-cta{
+    border:1px solid var(--pink); color:var(--pink) !important;
+    padding:7px 16px; border-radius:6px; font-family:'JetBrains Mono',monospace; font-size:13px;
+  }
+  .nav-cta:hover{background:var(--pink); color:var(--bg) !important;}
+
+  /* ---- HERO ---- */
+  .hero{padding:90px 0 70px; position:relative;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--mint);
+    display:inline-flex; align-items:center; gap:8px; margin-bottom:18px;
+  }
+  .dot-live{width:8px; height:8px; border-radius:50%; background:var(--mint); box-shadow:0 0 0 0 rgba(0,229,160,.6); animation:pulse 2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(0,229,160,.5);}
+    70%{box-shadow:0 0 0 8px rgba(0,229,160,0);}
+    100%{box-shadow:0 0 0 0 rgba(0,229,160,0);}
+  }
+
+  .ticket{
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+  }
+  .ticket-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 18px; background:var(--bg-soft); border-bottom:1px solid var(--card-border);
+  }
+  .ticket-bar .knob{width:11px; height:11px; border-radius:50%;}
+  .ticket-bar span.path{margin-left:10px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim);}
+  .ticket-body{padding:36px;}
+
+  h1.display{font-size:clamp(34px,5vw,56px); line-height:1.08; margin:0 0 14px; font-weight:700;}
+  h1.display .accent{color:var(--pink);}
+  .tagline{font-size:clamp(17px,2.2vw,22px); color:var(--text-dim); margin:0 0 26px; max-width:560px;}
+
+  .status-row{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:30px;}
+  .badge{
+    font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700;
+    padding:6px 12px; border-radius:20px; letter-spacing:.02em;
+  }
+  .badge.open{background:rgba(0,229,160,0.14); color:var(--mint); border:1px solid rgba(0,229,160,0.4);}
+  .badge.role{background:rgba(93,201,255,0.14); color:var(--blue); border:1px solid rgba(93,201,255,0.4);}
+  .badge.loc{background:rgba(255,197,61,0.14); color:var(--amber); border:1px solid rgba(255,197,61,0.4);}
+
+  .btn-row{display:flex; flex-wrap:wrap; gap:14px;}
+  .btn{
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;
+    padding:13px 26px; border-radius:8px; text-decoration:none; display:inline-block;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .btn-primary{background:var(--pink); color:#180F26;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px -8px rgba(255,61,129,0.6);}
+  .btn-ghost{border:1px solid var(--card-border); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--text-dim); transform:translateY(-2px);}
+
+  /* section shared */
+  section{padding:80px 0;}
+  .section-head{margin-bottom:42px;}
+  .section-num{font-family:'JetBrains Mono',monospace; color:var(--text-dim); font-size:13px; margin-bottom:8px;}
+  .section-title{font-size:clamp(26px,3.4vw,36px); margin:0; font-weight:700;}
+
+  /* reveal on scroll */
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.show{opacity:1; transform:translateY(0);}
+
+  /* about */
+  .about-grid{display:grid; grid-template-columns:1fr; gap:30px;}
+  @media(min-width:760px){.about-grid{grid-template-columns:1.3fr 1fr;}}
+  .about-text p{color:var(--text-dim); font-size:16px; line-height:1.75; margin:0 0 16px;}
+  .about-text strong{color:var(--text); font-weight:600;}
+  .stat-card{
+    background:var(--card); border:1px solid var(--card-border); border-radius:12px;
+    padding:20px; text-align:center;
+  }
+  .stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .stat-num{font-family:'Space Grotesk',sans-serif; font-size:28px; font-weight:700; color:var(--pink);}
+  .stat-label{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); margin-top:4px;}
+
+  /* skills */
+  .label-cloud{display:flex; flex-wrap:wrap; gap:10px;}
+  .pill{
+    font-family:'JetBrains Mono',monospace; font-size:13px;
+    padding:8px 16px; border-radius:20px; border:1px solid var(--card-border);
+    background:var(--card); color:var(--text-dim);
+    transition:transform .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .pill:hover{transform:translateY(-3px) rotate(-1deg); color:var(--text);}
+  .pill.c1:hover{border-color:var(--pink); color:var(--pink);}
+  .pill.c2:hover{border-color:var(--mint); color:var(--mint);}
+  .pill.c3:hover{border-color:var(--blue); color:var(--blue);}
+  .pill.c4:hover{border-color:var(--amber); color:var(--amber);}
+
+  /* projects */
+  .proj-grid{display:grid; grid-template-columns:1fr; gap:22px;}
+  @media(min-width:760px){.proj-grid{grid-template-columns:1fr 1fr;}}
+  .proj-card{
+    background:var(--card); border:1px solid var(--card-border); border-radius:14px;
+    padding:26px; display:flex; flex-direction:column; gap:14px;
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .proj-card:hover{transform:translateY(-5px); border-color:var(--text-dim);}
+  .proj-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .proj-id{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim);}
+  .proj-name{font-size:20px; font-weight:700; margin:4px 0 0;}
+  .status-tag{font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; white-space:nowrap;}
+  .status-tag.shipped{background:rgba(0,229,160,0.14); color:var(--mint);}
+  .status-tag.progress{background:rgba(255,197,61,0.14); color:var(--amber);}
+  .proj-desc{color:var(--text-dim); font-size:14.5px; line-height:1.6; margin:0;}
+  .tech-row{display:flex; flex-wrap:wrap; gap:7px;}
+  .tech-chip{font-family:'JetBrains Mono',monospace; font-size:11px; padding:4px 9px; border-radius:5px; background:var(--bg-soft); color:var(--text-dim); border:1px solid var(--card-border);}
+  .proj-links{display:flex; gap:16px; margin-top:auto; padding-top:6px;}
+  .proj-links a{color:var(--text-dim); font-size:13px; text-decoration:none; font-family:'JetBrains Mono',monospace; transition:color .2s;}
+  .proj-links a:hover{color:var(--pink);}
+
+  /* experience */
+  .timeline{border-left:2px solid var(--card-border); padding-left:28px; display:flex; flex-direction:column; gap:34px;}
+  .tl-item{position:relative;}
+  .tl-item::before{
+    content:''; position:absolute; left:-34px; top:4px; width:12px; height:12px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--pink);
+  }
+  .tl-role{font-weight:700; font-size:17px;}
+  .tl-meta{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); margin:4px 0 10px;}
+  .tl-desc{color:var(--text-dim); font-size:14.5px; line-height:1.7; max-width:560px;}
+
+  /* contact */
+  .contact-card{
+    background:linear-gradient(135deg, rgba(255,61,129,0.12), rgba(0,229,160,0.08));
+    border:1px solid var(--card-border); border-radius:18px; padding:50px 36px; text-align:center;
+  }
+  .contact-card h2{font-size:clamp(26px,4vw,40px); margin:0 0 14px;}
+  .contact-card p{color:var(--text-dim); max-width:480px; margin:0 auto 28px; font-size:16px;}
+  .social-row{display:flex; justify-content:center; gap:16px; margin-top:30px; flex-wrap:wrap;}
+  .social-pill{
+    font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-dim);
+    border:1px solid var(--card-border); padding:9px 18px; border-radius:8px; text-decoration:none;
+    transition:all .2s;
+  }
+  .social-pill:hover{color:var(--text); border-color:var(--text-dim);}
+
+  footer{padding:34px 0; border-top:1px solid var(--card-border); text-align:center;}
+  footer p{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); margin:0;}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{transition:none; opacity:1; transform:none;}
+    .dot-live{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grain-bg"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-logo">piyush<span>.</span>dev</div>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#projects">projects</a>
+      <a href="#experience">experience</a>
+      <a href="#contact" class="nav-cta">contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow"><span class="dot-live"></span> AVAILABLE FOR WORK</div>
+
+    <div class="ticket">
+      <div class="ticket-bar">
+        <div class="knob" style="background:var(--pink);"></div>
+        <div class="knob" style="background:var(--amber);"></div>
+        <div class="knob" style="background:var(--mint);"></div>
+        <span class="path">~/piyush-singh/issue-001.md</span>
+      </div>
+      <div class="ticket-body">
+        <h1 class="display">Piyush Singh<br>builds things. <span class="accent">Bugs build character.</span></h1>
+        <p class="tagline">the bugs like to fix me. — Full stack developer who ships, breaks, and ships again.</p>
+
+        <div class="status-row">
+          <span class="badge open">● STATUS: OPEN</span>
+          <span class="badge role">ROLE: Full Stack Developer</span>
+          <span class="badge loc">BASED IN: India</span>
+        </div>
+
+        <div class="btn-row">
+          <a href="#projects" class="btn btn-primary">View my work</a>
+          <a href="#contact" class="btn btn-ghost">Get in touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-head reveal">
+      <div class="section-num">01 / ABOUT</div>
+      <h2 class="section-title">The person behind the stack trace</h2>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>I'm <strong>Piyush Singh</strong>, a full stack developer who's spent the last few years turning vague ideas into working software — and working software into things people actually enjoy using.</p>
+        <p>I like the messy middle of building: the part where the feature half-works, the console is red, and somehow by midnight it's green again. <strong>(Placeholder bio — swap this for your real story.)</strong></p>
+        <p>When I'm not debugging, I'm probably reading about new frameworks I don't need yet, or explaining to non-devs why "it works on my machine" is a valid excuse.</p>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-num">30+</div><div class="stat-label">PROJECTS SHIPPED</div></div>
+        <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">YEARS CODING</div></div>
+        <div class="stat-card"><div class="stat-num">∞</div><div class="stat-label">CUPS OF CHAI</div></div>
+        <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">REGRETS (mostly)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-head reveal">
+      <div class="section-num">02 / SKILLS</div>
+      <h2 class="section-title">Tools of the trade</h2>
+    </div>
+    <div class="label-cloud reveal">
+      <span class="pill c1">JavaScript</span>
+      <span class="pill c2">TypeScript</span>
+      <span class="pill c3">React</span>
+      <span class="pill c4">Next.js</span>
+      <span class="pill c1">Node.js</span>
+      <span class="pill c2">Express</span>
+      <span class="pill c3">Python</span>
+      <span class="pill c4">PostgreSQL</span>
+      <span class="pill c1">MongoDB</span>
+      <span class="pill c2">Tailwind CSS</span>
+      <span class="pill c3">Docker</span>
+      <span class="pill c4">AWS</span>
+      <span class="pill c1">Git & GitHub</span>
+      <span class="pill c2">REST APIs</span>
+      <span class="pill c3">GraphQL</span>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-head reveal">
+      <div class="section-num">03 / PROJECTS</div>
+      <h2 class="section-title">Recently closed (and open) tickets</h2>
+    </div>
+    <div class="proj-grid reveal">
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <div>
+            <div class="proj-id">#014</div>
+            <h3 class="proj-name">TicketFlow</h3>
+          </div>
+          <span class="status-tag shipped">SHIPPED</span>
+        </div>
+        <p class="proj-desc">A lightweight project management dashboard with kanban boards, real-time updates, and team analytics. Built for small teams who hate bloated tools.</p>
+        <div class="tech-row">
+          <span class="tech-chip">React</span><span class="tech-chip">Node.js</span><span class="tech-chip">PostgreSQL</span>
+        </div>
+        <div class="proj-links">
+          <a href="#">Live demo →</a>
+          <a href="#">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <div>
+            <div class="proj-id">#021</div>
+            <h3 class="proj-name">PixelChat</h3>
+          </div>
+          <span class="status-tag progress">IN PROGRESS</span>
+        </div>
+        <p class="proj-desc">A real-time chat app with rooms, typing indicators, and message reactions — built to learn WebSockets the hard (best) way.</p>
+        <div class="tech-row">
+          <span class="tech-chip">Socket.io</span><span class="tech-chip">Express</span><span class="tech-chip">MongoDB</span>
+        </div>
+        <div class="proj-links">
+          <a href="#">Live demo →</a>
+          <a href="#">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <div>
+            <div class="proj-id">#009</div>
+            <h3 class="proj-name">DevDocs CLI</h3>
+          </div>
+          <span class="status-tag shipped">SHIPPED</span>
+        </div>
+        <p class="proj-desc">A command-line tool that auto-generates clean Markdown docs from code comments. Open source, mildly addictive to maintain.</p>
+        <div class="tech-row">
+          <span class="tech-chip">Python</span><span class="tech-chip">Click</span><span class="tech-chip">PyPI</span>
+        </div>
+        <div class="proj-links">
+          <a href="#">Live demo →</a>
+          <a href="#">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <div>
+            <div class="proj-id">#027</div>
+            <h3 class="proj-name">Recipe Radar</h3>
+          </div>
+          <span class="status-tag shipped">SHIPPED</span>
+        </div>
+        <p class="proj-desc">An AI-assisted recipe recommender that figures out what to cook from whatever's left in your fridge.</p>
+        <div class="tech-row">
+          <span class="tech-chip">Next.js</span><span class="tech-chip">OpenAI API</span><span class="tech-chip">Supabase</span>
+        </div>
+        <div class="proj-links">
+          <a href="#">Live demo →</a>
+          <a href="#">GitHub →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-head reveal">
+      <div class="section-num">04 / EXPERIENCE</div>
+      <h2 class="section-title">Where the bugs found me</h2>
+    </div>
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-role">Software Engineer — TechNova Labs</div>
+        <div class="tl-meta">2023 — Present · Remote</div>
+        <div class="tl-desc">Building and maintaining customer-facing features across the stack, working closely with design and product to ship things that don't break (often).</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-role">Frontend Intern — PixelWorks Studio</div>
+        <div class="tl-meta">2022 — 2023 · Bengaluru, India</div>
+        <div class="tl-desc">Rebuilt the marketing site in React, improved load times by a third, and learned that "pixel perfect" is a beautiful lie.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-role">B.Tech, Computer Science — Placeholder University</div>
+        <div class="tl-meta">2019 — 2023</div>
+        <div class="tl-desc">Spent four years learning that the real bugs were the friends we debugged along the way.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-card reveal">
+      <h2>Got a bug only I can fix?</h2>
+      <p>Open to full-time roles, freelance work, and interesting problems. Drop a line — I usually reply faster than CI pipelines run.</p>
+      <a href="mailto:piyush.singh@example.com" class="btn btn-primary">piyush.singh@example.com</a>
+      <div class="social-row">
+        <a href="#" class="social-pill">GitHub</a>
+        <a href="#" class="social-pill">LinkedIn</a>
+        <a href="#" class="social-pill">Twitter / X</a>
+        <a href="#" class="social-pill">Resume ↓</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>// built by Piyush Singh — © 2026 — status: still debugging life</p>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+    });
+  },{threshold:0.12});
+  els.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
